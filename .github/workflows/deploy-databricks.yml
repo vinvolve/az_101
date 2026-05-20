@@ -1,0 +1,30 @@
+name: 'Deploy Databricks'
+
+on:
+  push:
+    branches: [ "main" ]
+    paths:
+      - 'databricks/**'
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+
+    - name: Install Databricks CLI
+      run: |
+        curl -fsSL https://raw.githubusercontent.com/databricks/setup-cli/main/install.sh | sh
+
+    - name: Deploy Notebooks
+      env:
+        DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
+        DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
+      run: |
+        # Example: Syncing a local directory to Databricks Workspace
+        # databricks workspace import-dir ./databricks /Shared/az101 -o
+        echo "Databricks CLI installed. Ready to deploy assets from ./databricks"
+        # Note: In a real scenario, you would use 'databricks bundle deploy' for DABs
+        # or 'databricks workspace import-dir' for legacy syncing.
