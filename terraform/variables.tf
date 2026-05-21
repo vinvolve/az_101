@@ -13,7 +13,7 @@ variable "environment" {
 variable "location" {
   description = "Azure region for resources"
   type        = string
-  default     = "West Europe"
+  default     = "Sweden Central"
 }
 
 variable "sql_admin_login" {

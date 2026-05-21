@@ -1,7 +1,7 @@
 data "azurerm_client_config" "current" {}
 
 resource "random_string" "suffix" {
-  length  = 4
+  length  = 5
   special = false
   upper   = false
 }
@@ -62,6 +62,9 @@ resource "azurerm_storage_data_lake_gen2_filesystem" "gold" {
 
 # --- Azure Data Factory ---
 resource "azurerm_data_factory" "main" {
+  identity {
+    type = "SystemAssigned"
+  }
   name                = "adf-${var.project_name}-${var.environment}"
   location            = azurerm_resource_group.main.location
   resource_group_name = azurerm_resource_group.main.name
@@ -94,12 +97,12 @@ resource "azurerm_mssql_firewall_rule" "allow_azure_services" {
 }
 
 resource "azurerm_mssql_database" "main" {
-  name           = "sqldb-${var.project_name}-${var.environment}"
-  server_id      = azurerm_mssql_server.main.id
-  collation      = "SQL_Latin1_General_CP1_CI_AS"
-  license_type   = "BasePrice"
-  max_size_gb    = 2
-  sku_name       = "S0"
+  name         = "sqldb-${var.project_name}-${var.environment}"
+  server_id    = azurerm_mssql_server.main.id
+  collation    = "SQL_Latin1_General_CP1_CI_AS"
+  license_type = "BasePrice"
+  max_size_gb  = 2
+  sku_name     = "S0"
 }
 
 # Store SQL Connection String in Key Vault

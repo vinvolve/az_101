@@ -6,6 +6,10 @@ terraform {
       source  = "hashicorp/azurerm"
       version = "~> 3.0"
     }
+    azuread = {
+      source  = "hashicorp/azuread"
+      version = "~> 2.47"
+    }
     random = {
       source  = "hashicorp/random"
       version = "~> 3.0"
@@ -25,4 +29,7 @@ provider "azurerm" {
       recover_soft_deleted_key_vaults = true
     }
   }
+}
+
+provider "azuread" {
 }
